@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LaTeX Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin-bottom: 10px;
+        }
+        button {
+            margin: 5px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #output {
+            background: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ccc;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>LaTeX Converter MVP</h1>
+    <p>Füge den Artikeltext in das Textfeld ein, markiere Teile und konvertiere sie in LaTeX-Format.</p>
+
+    <textarea id="input" placeholder="Füge hier deinen Artikel ein..."></textarea>
+
+    <div>
+        <button onclick="convertToSection()">Als Section</button>
+        <button onclick="convertToSubsection()">Als Subsection</button>
+        <button onclick="convertToSubsubSection()">Als Subsubsection</button>
+        <button onclick="convertToParagraph()">Als normaler Text</button>
+        <button onclick="convertToParagraphTitle()">Als Paragraph Header</button>
+        <button onclick="convertToItem()">Als Listenpunkt</button>
+    </div>
+
+    <h3>Generierter LaTeX-Code:</h3>
+    <div id="output"></div>
+    <button onclick="copyToClipboard()">Code Kopieren</button>
+
+    <script>
+        let output = ""; // Speichert den generierten LaTeX-Code
+
+        function getInputText() {
+            return document.getElementById('input').value.trim();
+        }
+
+        function appendToOutput(latexCode) {
+            output += latexCode + "\n";
+            document.getElementById('output').textContent = output;
+        }
+
+        function convertToSection() {
+            const text = getInputText();
+            if (text) appendToOutput(`\\section{${text}}`);
+        }
+
+        function convertToSubsection() {
+            const text = getInputText();
+            if (text) appendToOutput(`\\subsection{${text}}`);
+        }
+
+        function convertToSubsubSection() {
+            const text = getInputText();
+            if (text) appendToOutput(`\\subsubsection{${text}}`)
+        }
+
+        function convertToParagraph() {
+            const text = getInputText();
+            if (text) appendToOutput(`${text}\n`);
+        }
+
+        function convertToParagraphTitle() {
+            const text = getInputText();
+            if (text) appendToOutput(`\\paragraph{${text}}\n`);
+        }
+
+        function convertToItem() {
+            const text = getInputText();
+            if (text) appendToOutput(`\\item ${text}`);
+        }
+
+        function copyToClipboard() {
+            navigator.clipboard.writeText(output).then(() => {
+                alert("LaTeX-Code wurde kopiert!");
+            });
+        }
+    </script>
+</body>
+</html>
